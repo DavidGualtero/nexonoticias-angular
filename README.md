@@ -70,4 +70,4 @@ o en una subcarpeta, y recargar una ruta profunda no da error 404.
 
 ## Autor
 
-[Nombre del estudiante] · Docente: John Olarte Ramos
+Juan David Gualtero · Docente: John Olarte Ramos
