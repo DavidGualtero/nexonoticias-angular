@@ -3,8 +3,7 @@
 Plataforma web de noticias — **Entrega final (Semana 7)** del módulo *Desarrollo de Front-end*.
 Migración a **Angular 21** del prototipo en HTML/CSS/JavaScript, conservando el diseño de la maquetación en Figma.
 
-- **Aplicación desplegada:** `https://[usuario].github.io/[repositorio]/`
-- **Video explicativo (máx. 3 min):** `[enlace de YouTube]`
+- **Aplicación desplegada:** `https://davidgualtero.github.io/nexonoticias-angular/`
 
 ## Qué incluye
 
@@ -54,19 +53,6 @@ src/app/
 Las noticias se leen de `public/data/noticias.json` (nunca se modifica). Favoritos, noticias creadas o eliminadas,
 mensajes de contacto y suscriptores se guardan en `localStorage` (claves `nexo_*`).
 El botón **Restablecer datos de ejemplo** del panel Admin recupera el estado inicial.
-
-## Despliegue
-
-El proyecto usa `baseHref: "./"` y rutas con `#`, por lo que la misma compilación funciona en la raíz de un dominio
-o en una subcarpeta, y recargar una ruta profunda no da error 404.
-
-**GitHub Pages (automático):**
-1. Subir el proyecto a un repositorio público (rama `main`).
-2. En el repositorio: *Settings → Pages → Source: **GitHub Actions***.
-3. Cada `git push` ejecuta `.github/workflows/deploy.yml` y publica el sitio.
-
-**Netlify / Vercel:** importar el repositorio; `netlify.toml` y `vercel.json` ya definen la compilación y la carpeta de salida.
-(Netlify también permite arrastrar la carpeta `dist/nexonoticias/browser` a https://app.netlify.com/drop).
 
 ## Autor
 
