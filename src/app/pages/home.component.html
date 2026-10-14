@@ -1,0 +1,56 @@
+<section class="hero">
+  <div class="contenedor">
+    <p class="hero-etiqueta">Edición diaria</p>
+    <h1>El análisis profundo y el acontecer diario de Colombia</h1>
+    <p>Encuentra reportajes de investigación, coberturas de última hora y perspectivas de expertos en política, tecnología, deportes y arte popular. Periodismo cercano a la gente.</p>
+    <div class="hero-acciones">
+      <a class="btn btn-primario" routerLink="/noticias">Explorar Noticias <app-icono nombre="flecha" /></a>
+      <a class="btn btn-borde" [routerLink]="ultima()">Última Hora</a>
+    </div>
+  </div>
+</section>
+
+<section class="seccion-crema" aria-labelledby="t-destacados">
+  <div class="contenedor">
+    <h2 class="titulo-linea" id="t-destacados">Destacados del Día</h2>
+    <div class="grid-tarjetas" aria-live="polite">
+      @if (servicio.error()) {
+        <app-error-carga [detalle]="servicio.error()!" (reintentar)="servicio.cargar()" />
+      } @else if (servicio.cargando()) {
+        <p>Cargando noticias…</p>
+      } @else {
+        @for (n of destacadas(); track n.id) {
+          <app-tarjeta-noticia [noticia]="n" />
+        } @empty {
+          <div class="vacio"><h2>Aún no hay noticias</h2><p>Crea la primera desde el panel Admin.</p></div>
+        }
+      }
+    </div>
+  </div>
+</section>
+
+<section class="cita-bloque">
+  <div class="contenedor">
+    <blockquote>"El buen periodismo no solo reporta sucesos, cuenta la historia de su gente."</blockquote>
+    <cite>— Alejandro Ruiz, Director Editorial General de NexoNoticias</cite>
+    <div class="stats">
+      <div class="stat"><strong [appContador]="1.2" [decimales]="1" sufijo="M+">1.2M+</strong><span>Lectores Mensuales</span></div>
+      <div class="stat"><strong [appContador]="50" sufijo="+">50+</strong><span>Reporteros de Campo</span></div>
+      <div class="stat"><strong [appContador]="32">32</strong><span>Estados Cubiertos</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="seccion-crema boletin-bloque" aria-labelledby="t-boletin">
+  <div class="contenedor">
+    <h2 id="t-boletin">Recibe las noticias directo en tu bandeja</h2>
+    <p>Suscríbete a nuestro boletín semanal gratuito. Análisis político, resúmenes culturales y las mejores historias directo a tu correo. Sin spam.</p>
+    <form class="form-suscripcion" (ngSubmit)="suscribir()" novalidate>
+      <label class="visualmente-oculto" for="correo-boletin">Correo electrónico</label>
+      <input id="correo-boletin" name="correo" type="email" placeholder="correo@ejemplo.com"
+             autocomplete="email" [(ngModel)]="correo">
+      <button class="btn btn-oscuro" type="submit">Suscribirse</button>
+    </form>
+    <p class="msg-suscripcion" role="status" [class.es-exito]="mensaje()?.ok" [class.es-error]="mensaje() && !mensaje()!.ok">{{ mensaje()?.texto }}</p>
+  </div>
+</section>

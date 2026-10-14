@@ -1,0 +1,94 @@
+<div class="contenedor contacto-grid">
+  <section class="contacto-info">
+    <h1>Ponte en Contacto</h1>
+    <p>¿Tienes algún reporte ciudadano, queja, sugerencia o propuesta comercial? Escríbenos, nuestro equipo de redacción te responderá lo antes posible.</p>
+
+    <div class="dato">
+      <span class="dato-icono"><app-icono nombre="telefono" /></span>
+      <div><small>Teléfono de redacción</small><strong>+57 (601) 5123-4567</strong></div>
+    </div>
+    <div class="dato">
+      <span class="dato-icono"><app-icono nombre="correo" /></span>
+      <div><small>Correo de prensa</small><strong>redaccion&#64;nexonoticias.com.co</strong></div>
+    </div>
+    <div class="dato">
+      <span class="dato-icono"><app-icono nombre="ubicacion" /></span>
+      <div><small>Oficinas centrales</small><strong>Carrera 7 #71-21, Chapinero, Bogotá</strong></div>
+    </div>
+
+    <div class="mapa">
+      <span class="mapa-etiqueta">Oficina Reforma 402</span>
+      <svg viewBox="0 0 640 250" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Mapa estilizado de la ubicación de las oficinas">
+        <rect width="640" height="250" fill="#2a2a2a" />
+        <path d="M0 40h640M0 95h640M0 150h640M0 205h640M60 0v250M150 0v250M250 0v250M360 0v250M470 0v250M570 0v250" stroke="#3b3b3b" stroke-width="2" fill="none" />
+        <path d="M0 20l200 230M120 0l260 250M300 0l340 200M440 0l200 170" stroke="#333" stroke-width="1" fill="none" />
+        <path d="M0 175C120 195 170 95 300 112S480 150 640 58" stroke="#ececec" stroke-width="5" fill="none" opacity=".92" />
+        <circle cx="330" cy="122" r="36" fill="#fff" opacity=".16" />
+        <circle cx="330" cy="122" r="22" fill="#fff" />
+        <circle cx="330" cy="122" r="8" fill="#a99145" />
+      </svg>
+    </div>
+  </section>
+
+  <section class="form-tarjeta" aria-labelledby="t-form">
+    <h2 id="t-form">Formulario de Mensaje</h2>
+
+    @if (enviado(); as nombre) {
+      <div class="confirmacion" #confirmacion tabindex="-1" role="status">
+        <app-icono nombre="check" />
+        <h3>¡Mensaje enviado!</h3>
+        <p>Gracias, <strong>{{ nombre }}</strong>. Nuestro equipo de redacción te responderá lo antes posible.</p>
+        <button type="button" class="btn btn-borde" style="margin-top: 20px" (click)="nuevoMensaje()">Enviar otro mensaje</button>
+      </div>
+    } @else {
+      <form [formGroup]="form" (ngSubmit)="enviar()" novalidate>
+        <div class="campo">
+          <div class="campo-fila">
+            <label for="nombre">Nombre Completo</label>
+            <span class="campo-estado" [class.es-error]="estado(form.controls.nombre).error" aria-live="polite">{{ estado(form.controls.nombre).texto }}</span>
+          </div>
+          <input id="nombre" type="text" formControlName="nombre" autocomplete="name" placeholder="Ej. Alejandro Mendoza"
+                 [attr.aria-invalid]="estado(form.controls.nombre).error">
+        </div>
+
+        <div class="campo">
+          <div class="campo-fila">
+            <label for="correo">Correo Electrónico</label>
+            <span class="campo-estado" [class.es-error]="estado(form.controls.correo).error" aria-live="polite">{{ estado(form.controls.correo).texto }}</span>
+          </div>
+          <input id="correo" type="email" formControlName="correo" autocomplete="email" placeholder="correo@ejemplo.com"
+                 [attr.aria-invalid]="estado(form.controls.correo).error">
+        </div>
+
+        <div class="campo">
+          <div class="campo-fila">
+            <label for="asunto">Asunto</label>
+            <span class="campo-estado es-opcional">Opcional</span>
+          </div>
+          <select id="asunto" formControlName="asunto">
+            <option value="">Selecciona una opción</option>
+            @for (a of asuntos; track a.valor) {
+              <option [value]="a.valor">{{ a.texto }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="campo">
+          <div class="campo-fila">
+            <label for="mensaje">Mensaje</label>
+            <span class="campo-estado" [class.es-error]="estado(form.controls.mensaje).error" aria-live="polite">{{ estado(form.controls.mensaje).texto }}</span>
+          </div>
+          <textarea id="mensaje" formControlName="mensaje" placeholder="Escribe tu mensaje aquí..."
+                    [attr.aria-invalid]="estado(form.controls.mensaje).error"></textarea>
+        </div>
+
+        @if (datosValidos()) {
+          <p class="aviso aviso-exito" role="status">
+            <app-icono nombre="check" /> Tus datos de contacto están validados correctamente. Listo para enviar.
+          </p>
+        }
+        <button class="btn btn-primario btn-bloque" type="submit">Enviar Mensaje</button>
+      </form>
+    }
+  </section>
+</div>

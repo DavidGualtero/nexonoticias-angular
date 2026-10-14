@@ -1,0 +1,4 @@
+# Netlify: conectar el repositorio y dejar esta configuración tal cual.
+[build]
+  command = "npm run build"
+  publish = "dist/nexonoticias/browser"

@@ -1,0 +1,40 @@
+<div class="header-inner contenedor">
+  <a class="logo" routerLink="/" aria-label="NexoNoticias, ir al inicio">
+    <span class="logo-marca" aria-hidden="true">N</span>NexoNoticias
+  </a>
+
+  <button class="menu-toggle" type="button" aria-controls="menu-principal"
+          [attr.aria-expanded]="menuAbierto()"
+          [attr.aria-label]="menuAbierto() ? 'Cerrar menú' : 'Abrir menú'"
+          (click)="alternarMenu()">
+    <app-icono nombre="menu" />
+  </button>
+
+  <div class="menu" id="menu-principal" [class.abierto]="menuAbierto()">
+    <nav class="nav" aria-label="Principal">
+      <ul>
+        @for (p of paginas; track p.ruta) {
+          <li>
+            <a [routerLink]="p.ruta" routerLinkActive="" ariaCurrentWhenActive="page"
+               [routerLinkActiveOptions]="{ exact: p.ruta === '/' }" (click)="cerrarMenu()">
+              {{ p.texto }}
+              @if (p.ruta === '/favoritos' && favoritos.total() > 0) {
+                <span class="insignia">{{ favoritos.total() }}</span>
+              }
+            </a>
+          </li>
+        }
+      </ul>
+    </nav>
+
+    <div class="herramientas">
+      <form class="buscador" role="search" (submit)="buscar($event)">
+        <app-icono nombre="buscar" />
+        <label class="visualmente-oculto" for="buscar-global">Buscar noticia</label>
+        <input id="buscar-global" type="search" name="q" placeholder="Buscar noticia..."
+               [value]="termino()" (input)="alEscribir($event)">
+      </form>
+      <span class="clima">Bogotá, 24°C</span>
+    </div>
+  </div>
+</div>

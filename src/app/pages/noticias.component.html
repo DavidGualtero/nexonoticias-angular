@@ -1,0 +1,46 @@
+<section class="cabecera-pagina">
+  <div class="contenedor">
+    <div class="cabecera-fila">
+      <div>
+        <h1>Catálogo de Noticias</h1>
+        <p class="sub">Mantente al día con lo más relevante de Colombia</p>
+      </div>
+      <form class="buscador-catalogo" role="search" (submit)="$event.preventDefault()">
+        <app-icono nombre="buscar" />
+        <label class="visualmente-oculto" for="buscar">Buscar noticias</label>
+        <input id="buscar" type="search" placeholder="Buscar política, cultura, tecnología..."
+               autocomplete="off" [value]="consulta()" (input)="buscar($event)">
+      </form>
+    </div>
+    <div class="pildoras" role="group" aria-label="Filtrar por categoría">
+      @for (c of opciones; track c) {
+        <button type="button" class="pildora" [attr.aria-pressed]="c === categoriaActiva()" (click)="elegir(c)">{{ c }}</button>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="catalogo-fondo">
+  <div class="contenedor">
+    <p class="contador-resultados" aria-live="polite">
+      {{ resultado().length }} {{ resultado().length === 1 ? 'noticia encontrada' : 'noticias encontradas' }}
+    </p>
+    <div class="grid-tarjetas">
+      @if (servicio.error()) {
+        <app-error-carga [detalle]="servicio.error()!" (reintentar)="servicio.cargar()" />
+      } @else if (servicio.cargando()) {
+        <p>Cargando noticias…</p>
+      } @else {
+        @for (n of resultado(); track n.id) {
+          <app-tarjeta-noticia [noticia]="n" />
+        } @empty {
+          <div class="vacio">
+            <h2>Sin resultados</h2>
+            <p>No encontramos noticias para «{{ consulta() }}» en {{ categoriaActiva() }}.</p>
+            <button type="button" class="btn btn-primario" (click)="limpiar()">Ver todas las noticias</button>
+          </div>
+        }
+      }
+    </div>
+  </div>
+</section>

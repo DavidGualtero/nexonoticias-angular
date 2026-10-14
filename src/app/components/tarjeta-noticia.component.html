@@ -1,0 +1,23 @@
+<article class="tarjeta">
+  <div class="tarjeta-img">
+    <a [routerLink]="['/noticias', noticia().id]" tabindex="-1" aria-hidden="true">
+      <img [src]="noticia().imagen" alt="" loading="lazy">
+    </a>
+    <button type="button" class="btn-fav" [attr.aria-pressed]="esFavorito()"
+            [attr.aria-label]="accion() + ': ' + noticia().titulo" [title]="accion()"
+            (click)="alternarFavorito()">
+      <app-icono nombre="corazon" />
+    </button>
+  </div>
+  <div class="tarjeta-cuerpo">
+    <div class="tarjeta-meta">
+      <span class="cat">{{ noticia().etiqueta ?? noticia().categoria }}</span>
+      <time [attr.datetime]="noticia().fecha">{{ noticia().fecha | fechaCorta }}</time>
+    </div>
+    <h3><a [routerLink]="['/noticias', noticia().id]">{{ noticia().titulo }}</a></h3>
+    <p class="tarjeta-resumen">{{ noticia().resumen }}</p>
+  </div>
+  <div class="tarjeta-pie">
+    <a class="ver-mas" [routerLink]="['/noticias', noticia().id]">Ver más <app-icono nombre="chevron" /></a>
+  </div>
+</article>

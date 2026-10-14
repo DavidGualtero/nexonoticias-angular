@@ -1,0 +1,46 @@
+<div class="contenedor">
+  <div class="footer-grid">
+    <div>
+      <p class="footer-marca">Nexo<span>Noticias</span></p>
+      <p class="footer-desc">El pulso informativo de Colombia. Periodismo independiente, riguroso y comprometido con la verdad desde el centro del país.</p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Secciones</h4>
+      <ul>
+        @for (c of categorias; track c) {
+          <li><a routerLink="/noticias" [queryParams]="{ categoria: c }">{{ c }}</a></li>
+        }
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Compañía</h4>
+      <ul>
+        <li><a href="#" (click)="pendiente($event)">Acerca de</a></li>
+        <li><a href="#" (click)="pendiente($event)">Términos y Condiciones</a></li>
+        <li><a href="#" (click)="pendiente($event)">Privacidad</a></li>
+        <li><a routerLink="/contacto">Soporte</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Boletín informativo</h4>
+      <form class="form-boletin" (ngSubmit)="suscribir()" novalidate>
+        <label class="visualmente-oculto" for="correo-pie">Tu correo electrónico</label>
+        <input id="correo-pie" name="correo" type="email" placeholder="Tu correo electrónico"
+               autocomplete="email" [(ngModel)]="correo" [attr.aria-invalid]="invalido()">
+        <button type="submit" aria-label="Suscribirse al boletín"><app-icono nombre="enviar" /></button>
+      </form>
+    </div>
+  </div>
+
+  <div class="footer-base">
+    <p>© 2026 NexoNoticias. Todos los derechos reservados. Redacción y Talleres en Bogotá, Colombia.</p>
+    <div class="redes">
+      @for (r of redes; track r.nombre) {
+        <a href="#" [attr.aria-label]="r.nombre" (click)="pendiente($event)"><app-icono [nombre]="r.icono" /></a>
+      }
+    </div>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<section class="cabecera-pagina">
+  <div class="contenedor cabecera-fila">
+    <div>
+      <h1>Mis Favoritos</h1>
+      <p class="sub" aria-live="polite">{{ lista().length === 1 ? '1 noticia guardada' : lista().length + ' noticias guardadas' }}</p>
+    </div>
+    @if (lista().length > 0) {
+      <button type="button" class="btn btn-borde" (click)="vaciar()">Vaciar lista</button>
+    }
+  </div>
+</section>
+
+<section class="catalogo-fondo">
+  <div class="contenedor">
+    <div class="grid-tarjetas">
+      @if (servicio.error()) {
+        <app-error-carga [detalle]="servicio.error()!" (reintentar)="servicio.cargar()" />
+      } @else if (servicio.cargando()) {
+        <p>Cargando favoritos…</p>
+      } @else {
+        @for (n of lista(); track n.id) {
+          <app-tarjeta-noticia [noticia]="n" />
+        } @empty {
+          <div class="vacio">
+            <h2>Aún no tienes favoritos</h2>
+            <p>Toca el corazón de cualquier noticia para guardarla aquí y leerla después.</p>
+            <a class="btn btn-primario" routerLink="/noticias">Explorar noticias</a>
+          </div>
+        }
+      }
+    </div>
+  </div>
+</section>

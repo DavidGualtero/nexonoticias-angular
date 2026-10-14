@@ -1,0 +1,103 @@
+<section class="cabecera-pagina">
+  <div class="contenedor">
+    <h1>Panel de Administración</h1>
+    <p class="sub">Crea y elimina noticias. Panel demostrativo sin autenticación: los cambios se guardan solo en este navegador.</p>
+  </div>
+</section>
+
+<section class="catalogo-fondo">
+  <div class="contenedor admin-grid">
+    <div class="form-tarjeta">
+      <h2>Crear noticia</h2>
+      <form [formGroup]="form" (ngSubmit)="crear()" novalidate>
+        <div class="campo">
+          <div class="campo-fila">
+            <label for="titulo">Título</label>
+            <span class="campo-estado" [class.es-error]="estado(form.controls.titulo).error" aria-live="polite">{{ estado(form.controls.titulo).texto }}</span>
+          </div>
+          <input id="titulo" type="text" formControlName="titulo" maxlength="120" [attr.aria-invalid]="estado(form.controls.titulo).error">
+        </div>
+
+        <div class="campo">
+          <div class="campo-fila"><label for="categoria">Categoría</label></div>
+          <select id="categoria" formControlName="categoria">
+            @for (c of categorias; track c) { <option [value]="c">{{ c }}</option> }
+          </select>
+        </div>
+
+        <div class="campo">
+          <div class="campo-fila"><label for="imagen">Imagen</label></div>
+          <select id="imagen" formControlName="imagen">
+            @for (i of imagenes; track i.archivo) { <option [value]="i.archivo">{{ i.etiqueta }}</option> }
+          </select>
+          <img class="vista-previa" [src]="form.controls.imagen.value" alt="Vista previa de la imagen seleccionada">
+        </div>
+
+        <div class="campo">
+          <div class="campo-fila"><label for="autor">Autor</label></div>
+          <select id="autor" formControlName="autor">
+            @for (a of autores(); track a.clave) { <option [value]="a.clave">{{ a.texto }}</option> }
+          </select>
+        </div>
+
+        <div class="campo">
+          <div class="campo-fila">
+            <label for="resumen">Resumen</label>
+            <span class="campo-estado" [class.es-error]="estado(form.controls.resumen).error" aria-live="polite">{{ estado(form.controls.resumen).texto }}</span>
+          </div>
+          <textarea id="resumen" formControlName="resumen" rows="3" style="min-height: 80px" maxlength="180"
+                    [attr.aria-invalid]="estado(form.controls.resumen).error"></textarea>
+        </div>
+
+        <div class="campo">
+          <div class="campo-fila">
+            <label for="cuerpo">Contenido</label>
+            <span class="campo-estado" [class.es-error]="estado(form.controls.contenido).error" aria-live="polite">{{ estado(form.controls.contenido).texto }}</span>
+          </div>
+          <textarea id="cuerpo" formControlName="contenido" placeholder="Separa los párrafos con una línea en blanco."
+                    [attr.aria-invalid]="estado(form.controls.contenido).error"></textarea>
+        </div>
+
+        <button class="btn btn-primario btn-bloque" type="submit">Publicar noticia</button>
+      </form>
+    </div>
+
+    <div class="form-tarjeta">
+      <div class="admin-barra">
+        <h2 style="margin: 0">Noticias publicadas ({{ servicio.noticias().length }})</h2>
+        <button type="button" class="btn btn-borde" (click)="restablecer()">Restablecer datos de ejemplo</button>
+      </div>
+      <div class="tabla-envoltorio">
+        @if (servicio.error()) {
+          <app-error-carga [detalle]="servicio.error()!" (reintentar)="servicio.cargar()" />
+        } @else {
+          <table class="tabla">
+            <thead>
+              <tr>
+                <th><span class="visualmente-oculto">Imagen</span></th>
+                <th>Título</th><th>Categoría</th><th>Fecha</th><th>Origen</th>
+                <th><span class="visualmente-oculto">Acciones</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (n of servicio.noticias(); track n.id) {
+                <tr>
+                  <td><img [src]="n.imagen" alt=""></td>
+                  <td class="titulo-celda">{{ n.titulo }}</td>
+                  <td>{{ n.categoria }}</td>
+                  <td>{{ n.fecha | fechaCorta }}</td>
+                  <td>
+                    <span class="etiqueta-origen" [class.creada]="servicio.esCreada(n.id)">{{ servicio.esCreada(n.id) ? 'Creada' : 'Base' }}</span>
+                  </td>
+                  <td><button type="button" class="btn btn-peligro" [attr.aria-label]="'Eliminar: ' + n.titulo" (click)="eliminar(n.id)">Eliminar</button></td>
+                </tr>
+              } @empty {
+                <tr><td colspan="6">{{ servicio.cargando() ? 'Cargando…' : 'No hay noticias publicadas.' }}</td></tr>
+              }
+            </tbody>
+          </table>
+        }
+      </div>
+    </div>
+  </div>
+</section>
